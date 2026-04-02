@@ -1,0 +1,261 @@
+import ReactMarkdown from "react-markdown"
+import { getArticle } from "../../../lib/articles"
+import Header from "../../../components/Header"
+import Footer from "../../../components/Footer"
+
+function extractHeadings(contenu: string) {
+  return contenu
+    .split("\n")
+    .filter((line) => line.startsWith("## "))
+    .map((line) => {
+      const text = line.replace("## ", "").trim()
+      const anchor = text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+      return { text, anchor }
+    })
+}
+
+const md: any = {
+  h2: ({ children }: any) => {
+    const text = String(children)
+    const anchor = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-")
+    return <h2 id={anchor} style={{ fontFamily: "'Rammetto One', cursive", fontSize: "28px", color: "#731702", margin: "48px 0 16px", lineHeight: 1.2, scrollMarginTop: "90px" }}>{children}</h2>
+  },
+  h3: ({ children }: any) => <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "22px", color: "#731702", margin: "36px 0 12px", lineHeight: 1.2 }}>{children}</h3>,
+  h4: ({ children }: any) => <h4 style={{ fontFamily: "'Nunito', sans-serif", fontSize: "18px", fontWeight: 800, color: "#bf3e0f", margin: "28px 0 10px" }}>{children}</h4>,
+  p: ({ children }: any) => <p style={{ marginBottom: "24px", fontSize: "17px", color: "#4a2010", lineHeight: 1.9, fontFamily: "'Nunito', sans-serif" }}>{children}</p>,
+  strong: ({ children }: any) => <strong style={{ fontWeight: 800, color: "#731702" }}>{children}</strong>,
+  em: ({ children }: any) => <em style={{ fontStyle: "italic", color: "#bf3e0f" }}>{children}</em>,
+  ul: ({ children }: any) => <ul style={{ margin: "0 0 24px 24px", fontSize: "17px", color: "#4a2010", lineHeight: 1.9, fontFamily: "'Nunito', sans-serif" }}>{children}</ul>,
+  ol: ({ children }: any) => <ol style={{ margin: "0 0 24px 24px", fontSize: "17px", color: "#4a2010", lineHeight: 1.9, fontFamily: "'Nunito', sans-serif" }}>{children}</ol>,
+  li: ({ children }: any) => <li style={{ marginBottom: "8px" }}>{children}</li>,
+  blockquote: ({ children }: any) => <blockquote style={{ borderLeft: "4px solid #bf3e0f", background: "#ffe7ca", borderRadius: "0 12px 12px 0", padding: "16px 24px", margin: "32px 0", fontStyle: "italic", color: "#731702" }}>{children}</blockquote>,
+  img: ({ src, alt }: any) => <img src={src} alt={alt} style={{ width: "100%", borderRadius: "12px", margin: "32px 0", display: "block" }} />,
+  hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
+  a: ({ href, children }: any) => <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}>{children}</a>,
+  code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
+}
+
+export default async function Article({
+  params
+}: {
+  params: Promise<{ categorie: string, slug: string }>
+}) {
+  const { categorie, slug } = await params
+  const article = await getArticle(slug)
+
+  if (!article) {
+    return (
+      <main style={{ background: "#fdf8f2", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center", padding: "24px" }}>
+          <p style={{ fontFamily: "'Rammetto One', cursive", fontSize: "28px", color: "#731702", marginBottom: "16px" }}>Article introuvable</p>
+          <a href="/" style={{ fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none" }}>← Retour à l'accueil</a>
+        </div>
+      </main>
+    )
+  }
+
+  const headings = extractHeadings(article.contenu || "")
+  const categorieLabel = categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
+
+  return (
+    <main style={{ background: "#fdf8f2", minHeight: "100vh" }}>
+      <Header />
+
+      {/* HERO */}
+      <section style={{ background: "#731702", position: "relative", overflow: "hidden" }}>
+        {article.image_couverture && (
+          <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+            <img src={article.image_couverture} alt={article.titre} style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.18 }} />
+          </div>
+        )}
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: "48px clamp(20px, 4vw, 48px) 56px" }}>
+
+          {/* FIL D'ARIANE */}
+          <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
+            <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
+            <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
+
+            {categorie === "oenotourisme" ? (
+              <>
+                <a href="/oenotourisme" style={{ color: "#f5c9a8", textDecoration: "none" }}>Oenotourisme</a>
+                {article.region && (
+                  <>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
+                    <a href={`/oenotourisme/${article.region}`} style={{ color: "#f5c9a8", textDecoration: "none", textTransform: "capitalize" as const }}>
+                      {article.region.replace(/-/g, " ")}
+                    </a>
+                  </>
+                )}
+              </>
+            ) : (
+              <a href={`/${categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>{categorieLabel}</a>
+            )}
+
+            <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
+            <span style={{ color: "rgba(255,255,255,0.45)" }}>{article.titre}</span>
+          </div>
+
+          {/* BADGE */}
+          <div style={{ marginBottom: "20px" }}>
+            <span style={{ display: "inline-block", background: "#f28322", color: "#ffffff", fontSize: "11px", fontWeight: 800, padding: "5px 14px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "1px", fontFamily: "'Nunito', sans-serif" }}>
+              {categorie === "oenotourisme" && article.region
+                ? `Oenotourisme ${article.region.replace(/-/g, " ")}`
+                : categorieLabel}
+            </span>
+          </div>
+
+          {/* TITRE H1 */}
+          <h1 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "clamp(28px, 5vw, 52px)", color: "#ffffff", lineHeight: 1.1, marginBottom: "28px", maxWidth: "800px" }}>
+            {article.titre}
+          </h1>
+
+          {/* AUTEUR + META */}
+          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            <div style={{ width: "44px", height: "44px", borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.3)", flexShrink: 0 }}>
+              <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Julien-le-petit-vigneron.webp" alt="Julien" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+            <div>
+              <div style={{ fontSize: "14px", fontWeight: 800, color: "#ffffff", fontFamily: "'Nunito', sans-serif" }}>{article.auteur || "Julien"}</div>
+              <div style={{ fontSize: "12px", color: "#f5c9a8", fontFamily: "'Nunito', sans-serif" }}>
+                {article.date}{article.temps_lecture && ` · ${article.temps_lecture} min de lecture`}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* CORPS */}
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px, 4vw, 48px)" }}>
+        <div style={{ display: "grid", gap: "56px", alignItems: "start" }} className="article-layout">
+
+          {/* COLONNE ARTICLE */}
+          <div>
+
+            {/* IMAGE ILLUSTRATION */}
+            {article.image_couverture && (
+              <div style={{ borderRadius: "16px", overflow: "hidden", margin: "40px 0 0", border: "1px solid #f0d4b8" }}>
+                <img src={article.image_couverture} alt={article.titre} style={{ width: "100%", height: "clamp(200px, 40vw, 400px)", objectFit: "cover", display: "block" }} />
+              </div>
+            )}
+
+            {/* EXTRAIT */}
+            <div style={{ background: "#ffe7ca", borderLeft: "4px solid #bf3e0f", borderRadius: "0 12px 12px 0", padding: "16px 20px", margin: "40px 0" }}>
+              <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>
+                {article.extrait}
+              </p>
+            </div>
+
+            {/* SOMMAIRE MOBILE */}
+            {headings.length > 0 && (
+              <div className="sommaire-mobile" style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden", marginBottom: "32px" }}>
+                <div style={{ background: "#731702", padding: "12px 20px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 800, color: "#ffffff", textTransform: "uppercase" as const, letterSpacing: "2px", fontFamily: "'Nunito', sans-serif" }}>Sommaire</span>
+                </div>
+                <nav style={{ padding: "8px 0" }}>
+                  {headings.map((h, i) => (
+                    <a key={i} href={`#${h.anchor}`} style={{ display: "flex", alignItems: "baseline", gap: "10px", fontSize: "13px", fontWeight: 700, color: "#7a3a20", textDecoration: "none", padding: "10px 20px", borderBottom: i < headings.length - 1 ? "1px solid #f0d4b8" : "none", lineHeight: 1.4, fontFamily: "'Nunito', sans-serif" }}>
+                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {h.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            )}
+
+            {/* CONTENU MARKDOWN */}
+            <ReactMarkdown components={md}>{article.contenu}</ReactMarkdown>
+
+            {/* BLOC AUTEUR EEAT */}
+            <div style={{ margin: "56px 0 0", background: "white", border: "1px solid #f0d4b8", borderRadius: "20px", overflow: "hidden" }}>
+              <div style={{ background: "#731702", padding: "14px 24px" }}>
+                <span style={{ fontSize: "11px", fontWeight: 800, color: "#ffffff", textTransform: "uppercase" as const, letterSpacing: "2px", fontFamily: "'Nunito', sans-serif" }}>À propos de l'auteur</span>
+              </div>
+              <div style={{ padding: "24px", display: "grid", gridTemplateColumns: "auto 1fr", gap: "20px", alignItems: "start" }}>
+                <div style={{ width: "72px", height: "72px", borderRadius: "50%", overflow: "hidden", border: "3px solid #f0d4b8", flexShrink: 0 }}>
+                  <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Julien-le-petit-vigneron.webp" alt="Julien" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                </div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px", flexWrap: "wrap" as const }}>
+                    <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "18px", color: "#731702", margin: 0 }}>Julien</h3>
+                    <span style={{ background: "#ffe7ca", color: "#bf3e0f", fontSize: "10px", fontWeight: 800, padding: "3px 10px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "0.5px", fontFamily: "'Nunito', sans-serif" }}>Expert vin</span>
+                  </div>
+                  <p style={{ fontSize: "14px", color: "#9a6040", lineHeight: 1.75, marginBottom: "14px", fontFamily: "'Nunito', sans-serif" }}>
+                    Passionné de vin depuis plus de 10 ans, j'ai parcouru les plus grands vignobles français et européens pour partager des conseils accessibles et authentiques. Mon approche : démystifier le vin pour que chacun puisse l'apprécier pleinement, sans jargon inutile.
+                  </p>
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" as const }}>
+                    {["10+ ans de passion", "15 régions visitées", "120+ articles publiés"].map((label) => (
+                      <div key={label} style={{ fontSize: "11px", fontWeight: 700, color: "#731702", background: "#fdf8f2", padding: "5px 10px", borderRadius: "20px", border: "1px solid #f0d4b8", fontFamily: "'Nunito', sans-serif" }}>
+                        {label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RETOUR CATÉGORIE */}
+            <div style={{ margin: "32px 0 56px" }}>
+              {categorie === "oenotourisme" && article.region ? (
+                <a href={`/oenotourisme/${article.region}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
+                  ← Oenotourisme {article.region.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
+                </a>
+              ) : (
+                <a href={`/${categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
+                  ← Tous les articles {categorieLabel}
+                </a>
+              )}
+            </div>
+
+          </div>
+
+          {/* SIDEBAR SOMMAIRE DESKTOP */}
+          {headings.length > 0 && (
+            <div className="sommaire-desktop" style={{ position: "sticky", top: "88px", marginTop: "40px" }}>
+              <div style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden" }}>
+                <div style={{ background: "#731702", padding: "14px 20px" }}>
+                  <span style={{ fontSize: "11px", fontWeight: 800, color: "#ffffff", textTransform: "uppercase" as const, letterSpacing: "2px", fontFamily: "'Nunito', sans-serif" }}>Sommaire</span>
+                </div>
+                <nav style={{ padding: "8px 0" }}>
+                  {headings.map((h, i) => (
+                    <a key={i} href={`#${h.anchor}`} style={{ display: "flex", alignItems: "baseline", gap: "10px", fontSize: "13px", fontWeight: 700, color: "#7a3a20", textDecoration: "none", padding: "10px 20px", borderBottom: i < headings.length - 1 ? "1px solid #f0d4b8" : "none", lineHeight: 1.4, fontFamily: "'Nunito', sans-serif" }}>
+                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {h.text}
+                    </a>
+                  ))}
+                </nav>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      <Footer />
+
+      <style>{`
+        .article-layout {
+          grid-template-columns: 1fr 280px;
+        }
+        .sommaire-mobile { display: none; }
+        .sommaire-desktop { display: block; }
+
+        @media (max-width: 1024px) {
+          .article-layout { grid-template-columns: 1fr !important; }
+          .sommaire-mobile { display: block !important; }
+          .sommaire-desktop { display: none !important; }
+        }
+      `}</style>
+
+    </main>
+  )
+}
