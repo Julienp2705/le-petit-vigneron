@@ -5,18 +5,13 @@ export default function Boutique() {
   return (
     <main style={{ background: "#fdf8f2", minHeight: "100vh" }}>
       <Header />
-      <section style={{ background: "#731702", position: "relative", overflow: "hidden", padding: "clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div style={{ marginBottom: "24px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", fontFamily: "'Nunito', sans-serif" }}>
-            <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
-            <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
-            <span style={{ color: "rgba(255,255,255,0.6)" }}>Boutique</span>
-          </div>
+      <section style={{ background: "#731702", padding: "clamp(56px, 8vw, 96px) clamp(20px, 4vw, 48px)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <h1 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "clamp(32px, 5vw, 56px)", color: "#ffffff", lineHeight: 1.05, marginBottom: "20px" }}>
             Mes sélections
           </h1>
-          <p style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "#f5c9a8", lineHeight: 1.8, maxWidth: "520px", fontFamily: "'Nunito', sans-serif" }}>
-            Des bouteilles soigneusement choisies pour vous — mes coups de cœur du moment.
+          <p style={{ fontSize: "17px", color: "#f5c9a8", lineHeight: 1.8, fontFamily: "'Nunito', sans-serif" }}>
+            Des bouteilles soigneusement choisies pour vous.
           </p>
         </div>
       </section>
