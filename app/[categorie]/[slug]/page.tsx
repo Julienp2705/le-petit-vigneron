@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import ReactMarkdown from "react-markdown"
 import { getArticle } from "../../../lib/articles"
 import Header from "../../../components/Header"
@@ -54,6 +55,45 @@ const sousCategorieLabels: Record<string, string> = {
   "sancerre": "Sancerre",
 }
 
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ categorie: string, slug: string }>
+}): Promise<Metadata> {
+  const { categorie, slug } = await params
+  const article = await getArticle(slug)
+
+  if (!article) {
+    return { title: "Article introuvable" }
+  }
+
+  const titre = article.meta_titre || article.titre
+  const description = article.meta_description || article.extrait
+  const image = article.image_couverture || "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp"
+  const url = `https://le-petit-vigneron.fr/${categorie}/${slug}`
+
+  return {
+    title: titre,
+    description: description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: titre,
+      description: description,
+      url: url,
+      type: "article",
+      publishedTime: article.date,
+      authors: [article.auteur || "Julien"],
+      images: [{ url: image, width: 1200, height: 630, alt: article.titre }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titre,
+      description: description,
+      images: [image],
+    },
+  }
+}
+
 export default async function Article({
   params
 }: {
@@ -94,7 +134,6 @@ export default async function Article({
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
-
             {categorie === "oenotourisme" ? (
               <>
                 <a href="/oenotourisme" style={{ color: "#f5c9a8", textDecoration: "none" }}>Oenotourisme</a>
@@ -120,7 +159,6 @@ export default async function Article({
                 )}
               </>
             )}
-
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
             <span style={{ color: "rgba(255,255,255,0.45)" }}>{article.titre}</span>
           </div>
@@ -132,12 +170,10 @@ export default async function Article({
             </span>
           </div>
 
-          {/* TITRE H1 */}
           <h1 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "clamp(28px, 5vw, 52px)", color: "#ffffff", lineHeight: 1.1, marginBottom: "28px", maxWidth: "800px" }}>
             {article.titre}
           </h1>
 
-          {/* AUTEUR + META */}
           <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
             <div style={{ width: "44px", height: "44px", borderRadius: "50%", overflow: "hidden", border: "2px solid rgba(255,255,255,0.3)", flexShrink: 0 }}>
               <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Julien-le-petit-vigneron.webp" alt="Julien" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -149,32 +185,25 @@ export default async function Article({
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* CORPS */}
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px, 4vw, 48px)" }}>
         <div style={{ display: "grid", gap: "56px", alignItems: "start" }} className="article-layout">
-
-          {/* COLONNE ARTICLE */}
           <div>
-
-            {/* IMAGE */}
             {article.image_couverture && (
               <div style={{ borderRadius: "16px", overflow: "hidden", margin: "40px 0 0", border: "1px solid #f0d4b8" }}>
                 <img src={article.image_couverture} alt={article.titre} style={{ width: "100%", height: "clamp(200px, 40vw, 400px)", objectFit: "cover", display: "block" }} />
               </div>
             )}
 
-            {/* EXTRAIT */}
             <div style={{ background: "#ffe7ca", borderLeft: "4px solid #bf3e0f", borderRadius: "0 12px 12px 0", padding: "16px 20px", margin: "40px 0" }}>
               <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>
                 {article.extrait}
               </p>
             </div>
 
-            {/* SOMMAIRE MOBILE */}
             {headings.length > 0 && (
               <div className="sommaire-mobile" style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden", marginBottom: "32px" }}>
                 <div style={{ background: "#731702", padding: "12px 20px" }}>
@@ -183,9 +212,7 @@ export default async function Article({
                 <nav style={{ padding: "8px 0" }}>
                   {headings.map((h, i) => (
                     <a key={i} href={`#${h.anchor}`} style={{ display: "flex", alignItems: "baseline", gap: "10px", fontSize: "13px", fontWeight: 700, color: "#7a3a20", textDecoration: "none", padding: "10px 20px", borderBottom: i < headings.length - 1 ? "1px solid #f0d4b8" : "none", lineHeight: 1.4, fontFamily: "'Nunito', sans-serif" }}>
-                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
                       {h.text}
                     </a>
                   ))}
@@ -193,7 +220,6 @@ export default async function Article({
               </div>
             )}
 
-            {/* CONTENU MARKDOWN */}
             <ReactMarkdown components={md}>{article.contenu}</ReactMarkdown>
 
             {/* BLOC AUTEUR EEAT */}
@@ -224,7 +250,7 @@ export default async function Article({
               </div>
             </div>
 
-            {/* RETOUR CATÉGORIE */}
+            {/* RETOUR */}
             <div style={{ margin: "32px 0 56px", display: "flex", gap: "12px", flexWrap: "wrap" as const }}>
               {article.sous_categorie && categorie !== "oenotourisme" && (
                 <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
@@ -241,10 +267,8 @@ export default async function Article({
                 </a>
               )}
             </div>
-
           </div>
 
-          {/* SIDEBAR SOMMAIRE DESKTOP */}
           {headings.length > 0 && (
             <div className="sommaire-desktop" style={{ position: "sticky", top: "88px", marginTop: "40px" }}>
               <div style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden" }}>
@@ -254,9 +278,7 @@ export default async function Article({
                 <nav style={{ padding: "8px 0" }}>
                   {headings.map((h, i) => (
                     <a key={i} href={`#${h.anchor}`} style={{ display: "flex", alignItems: "baseline", gap: "10px", fontSize: "13px", fontWeight: 700, color: "#7a3a20", textDecoration: "none", padding: "10px 20px", borderBottom: i < headings.length - 1 ? "1px solid #f0d4b8" : "none", lineHeight: 1.4, fontFamily: "'Nunito', sans-serif" }}>
-                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                      <span style={{ color: "#f0d4b8", fontFamily: "'Rammetto One', cursive", fontSize: "12px", flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
                       {h.text}
                     </a>
                   ))}
@@ -264,7 +286,6 @@ export default async function Article({
               </div>
             </div>
           )}
-
         </div>
       </div>
 
@@ -280,7 +301,6 @@ export default async function Article({
           .sommaire-desktop { display: none !important; }
         }
       `}</style>
-
     </main>
   )
 }
