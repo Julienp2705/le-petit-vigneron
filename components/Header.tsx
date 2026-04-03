@@ -43,17 +43,7 @@ const navigation = [
 ]
 
 const ChevronDown = ({ rotated }: { rotated: boolean }) => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 12 12"
-    fill="none"
-    style={{
-      transition: "transform 0.2s",
-      transform: rotated ? "rotate(180deg)" : "none",
-      flexShrink: 0,
-    }}
-  >
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: rotated ? "rotate(180deg)" : "none", flexShrink: 0 }}>
     <path d="M2 4L6 8L10 4" stroke="#c4a882" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
@@ -63,6 +53,13 @@ const ChevronRight = () => (
     <path d="M4 2L8 6L4 10" stroke="#bf3e0f" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
+
+const getSubcategoryHref = (categorieSlug: string, subSlug: string) => {
+  if (categorieSlug === "oenotourisme") {
+    return `/oenotourisme/${subSlug}`
+  }
+  return `/${categorieSlug}/categorie/${subSlug}`
+}
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -90,95 +87,53 @@ export default function Header() {
         {/* NAV DESKTOP */}
         <nav style={{ display: "flex", gap: "2px", alignItems: "center" }} className="desktop-nav">
           {navigation.map((item) => (
-            <div
-              key={item.slug}
-              style={{ position: "relative" as const }}
-            >
+            <div key={item.slug} style={{ position: "relative" as const }}>
               <button
                 onClick={() => toggleMenu(item.slug)}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  fontSize: "13px",
-                  fontWeight: 700,
+                  display: "flex", alignItems: "center", gap: "6px",
+                  fontSize: "13px", fontWeight: 700,
                   color: activeMenu === item.slug ? "#bf3e0f" : "#7a3a20",
                   background: activeMenu === item.slug ? "#fdf8f2" : "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: "8px 12px",
-                  borderRadius: "8px",
-                  transition: "all 0.15s",
-                  fontFamily: "'Nunito', sans-serif",
-                  whiteSpace: "nowrap" as const,
+                  border: "none", cursor: "pointer", padding: "8px 12px", borderRadius: "8px",
+                  transition: "all 0.15s", fontFamily: "'Nunito', sans-serif", whiteSpace: "nowrap" as const,
                 }}
               >
                 {item.label}
                 <ChevronDown rotated={activeMenu === item.slug} />
               </button>
 
-              {/* DROPDOWN */}
               {activeMenu === item.slug && (
                 <>
-                  <div
-                    style={{ position: "fixed" as const, inset: 0, zIndex: 150 }}
-                    onClick={() => setActiveMenu(null)}
-                  />
+                  <div style={{ position: "fixed" as const, inset: 0, zIndex: 150 }} onClick={() => setActiveMenu(null)} />
                   <div style={{
-                    position: "absolute" as const,
-                    top: "calc(100% + 4px)",
-                    left: 0,
-                    zIndex: 200,
-                    background: "white",
-                    border: "1px solid #f0d4b8",
-                    borderRadius: "14px",
-                    boxShadow: "0 12px 40px rgba(115,23,2,0.12)",
-                    padding: "6px",
-                    minWidth: "210px",
+                    position: "absolute" as const, top: "calc(100% + 4px)", left: 0, zIndex: 200,
+                    background: "white", border: "1px solid #f0d4b8", borderRadius: "14px",
+                    boxShadow: "0 12px 40px rgba(115,23,2,0.12)", padding: "6px", minWidth: "210px",
                   }}>
                     <a
                       href={`/${item.slug}`}
                       onClick={() => setActiveMenu(null)}
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        padding: "10px 14px",
-                        marginBottom: "4px",
-                        borderRadius: "8px",
-                        background: "#fdf8f2",
-                        fontSize: "12px",
-                        fontWeight: 800,
-                        color: "#bf3e0f",
-                        textDecoration: "none",
-                        textTransform: "uppercase" as const,
-                        letterSpacing: "0.8px",
-                        fontFamily: "'Nunito', sans-serif",
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "10px 14px", marginBottom: "4px", borderRadius: "8px", background: "#fdf8f2",
+                        fontSize: "12px", fontWeight: 800, color: "#bf3e0f", textDecoration: "none",
+                        textTransform: "uppercase" as const, letterSpacing: "0.8px", fontFamily: "'Nunito', sans-serif",
                       }}
                     >
                       Voir tous les articles
                       <ChevronRight />
                     </a>
-
                     <div style={{ height: "1px", background: "#f0d4b8", margin: "4px 6px 8px" }}></div>
-
                     {item.subcategories.map((sub) => (
                       <a
                         key={sub.slug}
-                        href={`/${item.slug}/${sub.slug}`}
+                        href={getSubcategoryHref(item.slug, sub.slug)}
                         onClick={() => setActiveMenu(null)}
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          padding: "9px 14px",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                          color: "#7a3a20",
-                          textDecoration: "none",
-                          borderRadius: "8px",
-                          transition: "all 0.15s",
-                          fontFamily: "'Nunito', sans-serif",
+                          display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "9px 14px", fontSize: "13px", fontWeight: 700, color: "#7a3a20",
+                          textDecoration: "none", borderRadius: "8px", transition: "all 0.15s", fontFamily: "'Nunito', sans-serif",
                         }}
                         onMouseEnter={(e) => {
                           (e.currentTarget as HTMLElement).style.background = "#fdf8f2"
@@ -204,16 +159,7 @@ export default function Header() {
             </div>
           ))}
 
-          <a href="/boutique" style={{
-            fontSize: "13px",
-            fontWeight: 700,
-            color: "#7a3a20",
-            textDecoration: "none",
-            padding: "8px 12px",
-            borderRadius: "8px",
-            fontFamily: "'Nunito', sans-serif",
-            whiteSpace: "nowrap" as const,
-          }}>
+          <a href="/boutique" style={{ fontSize: "13px", fontWeight: 700, color: "#7a3a20", textDecoration: "none", padding: "8px 12px", borderRadius: "8px", fontFamily: "'Nunito', sans-serif", whiteSpace: "nowrap" as const }}>
             Boutique
           </a>
         </nav>
@@ -222,15 +168,7 @@ export default function Header() {
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="burger-btn"
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            flexDirection: "column" as const,
-            gap: "5px",
-          }}
+          style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: "8px", flexDirection: "column" as const, gap: "5px" }}
         >
           <span style={{ display: "block", width: "24px", height: "2px", background: "#731702", transition: "all 0.3s", transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : "none" }}></span>
           <span style={{ display: "block", width: "24px", height: "2px", background: "#731702", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }}></span>
@@ -260,19 +198,8 @@ export default function Header() {
                     {item.subcategories.map((sub) => (
                       <a
                         key={sub.slug}
-                        href={`/${item.slug}/${sub.slug}`}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                          color: "#9a6040",
-                          textDecoration: "none",
-                          padding: "9px 12px",
-                          borderRadius: "8px",
-                          fontFamily: "'Nunito', sans-serif",
-                        }}
+                        href={getSubcategoryHref(item.slug, sub.slug)}
+                        style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", fontWeight: 700, color: "#9a6040", textDecoration: "none", padding: "9px 12px", borderRadius: "8px", fontFamily: "'Nunito', sans-serif" }}
                       >
                         <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#bf3e0f", flexShrink: 0, display: "inline-block" }}></span>
                         {sub.label}
