@@ -40,6 +40,20 @@ const md: any = {
   code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
 }
 
+const sousCategorieLabels: Record<string, string> = {
+  "cuisine-francaise": "Cuisine française",
+  "cuisine-espagnole": "Cuisine espagnole",
+  "cuisine-du-monde": "Cuisine du monde",
+  "que-manger-avec": "Que manger avec...",
+  "riesling": "Riesling",
+  "sylvaner": "Sylvaner",
+  "garnacha": "Garnacha",
+  "sauvignon-blanc": "Sauvignon blanc",
+  "haut-medoc": "Haut-Médoc",
+  "pouilly-fume": "Pouilly-Fumé",
+  "sancerre": "Sancerre",
+}
+
 export default async function Article({
   params
 }: {
@@ -61,6 +75,7 @@ export default async function Article({
 
   const headings = extractHeadings(article.contenu || "")
   const categorieLabel = categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
+  const sousCategorieLabel = article.sous_categorie ? (sousCategorieLabels[article.sous_categorie] || article.sous_categorie.replace(/-/g, " ")) : null
 
   return (
     <main style={{ background: "#fdf8f2", minHeight: "100vh" }}>
@@ -79,6 +94,7 @@ export default async function Article({
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
+
             {categorie === "oenotourisme" ? (
               <>
                 <a href="/oenotourisme" style={{ color: "#f5c9a8", textDecoration: "none" }}>Oenotourisme</a>
@@ -92,8 +108,19 @@ export default async function Article({
                 )}
               </>
             ) : (
-              <a href={`/${categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>{categorieLabel}</a>
+              <>
+                <a href={`/${categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>{categorieLabel}</a>
+                {article.sous_categorie && sousCategorieLabel && (
+                  <>
+                    <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
+                    <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>
+                      {sousCategorieLabel}
+                    </a>
+                  </>
+                )}
+              </>
             )}
+
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
             <span style={{ color: "rgba(255,255,255,0.45)" }}>{article.titre}</span>
           </div>
@@ -101,9 +128,7 @@ export default async function Article({
           {/* BADGE */}
           <div style={{ marginBottom: "20px" }}>
             <span style={{ display: "inline-block", background: "#f28322", color: "#ffffff", fontSize: "11px", fontWeight: 800, padding: "5px 14px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "1px", fontFamily: "'Nunito', sans-serif" }}>
-              {categorie === "oenotourisme" && article.region
-                ? `Oenotourisme ${article.region.replace(/-/g, " ")}`
-                : categorieLabel}
+              {sousCategorieLabel || categorieLabel}
             </span>
           </div>
 
@@ -200,13 +225,18 @@ export default async function Article({
             </div>
 
             {/* RETOUR CATÉGORIE */}
-            <div style={{ margin: "32px 0 56px" }}>
+            <div style={{ margin: "32px 0 56px", display: "flex", gap: "12px", flexWrap: "wrap" as const }}>
+              {article.sous_categorie && categorie !== "oenotourisme" && (
+                <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
+                  ← {sousCategorieLabel}
+                </a>
+              )}
               {categorie === "oenotourisme" && article.region ? (
                 <a href={`/oenotourisme/${article.region}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
                   ← Oenotourisme {article.region.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())}
                 </a>
               ) : (
-                <a href={`/${categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
+                <a href={`/${categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#9a6040", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
                   ← Tous les articles {categorieLabel}
                 </a>
               )}
