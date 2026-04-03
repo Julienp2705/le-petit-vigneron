@@ -79,7 +79,6 @@ export default async function Article({
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
-
             {categorie === "oenotourisme" ? (
               <>
                 <a href="/oenotourisme" style={{ color: "#f5c9a8", textDecoration: "none" }}>Oenotourisme</a>
@@ -95,7 +94,6 @@ export default async function Article({
             ) : (
               <a href={`/${categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>{categorieLabel}</a>
             )}
-
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
             <span style={{ color: "rgba(255,255,255,0.45)" }}>{article.titre}</span>
           </div>
@@ -137,7 +135,7 @@ export default async function Article({
           {/* COLONNE ARTICLE */}
           <div>
 
-            {/* IMAGE ILLUSTRATION */}
+            {/* IMAGE */}
             {article.image_couverture && (
               <div style={{ borderRadius: "16px", overflow: "hidden", margin: "40px 0 0", border: "1px solid #f0d4b8" }}>
                 <img src={article.image_couverture} alt={article.titre} style={{ width: "100%", height: "clamp(200px, 40vw, 400px)", objectFit: "cover", display: "block" }} />
@@ -185,13 +183,13 @@ export default async function Article({
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px", flexWrap: "wrap" as const }}>
                     <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "18px", color: "#731702", margin: 0 }}>Julien</h3>
-                    <span style={{ background: "#ffe7ca", color: "#bf3e0f", fontSize: "10px", fontWeight: 800, padding: "3px 10px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "0.5px", fontFamily: "'Nunito', sans-serif" }}>Expert vin</span>
+                    <span style={{ background: "#ffe7ca", color: "#bf3e0f", fontSize: "10px", fontWeight: 800, padding: "3px 10px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "0.5px", fontFamily: "'Nunito', sans-serif" }}>Le Petit Vigneron</span>
                   </div>
                   <p style={{ fontSize: "14px", color: "#9a6040", lineHeight: 1.75, marginBottom: "14px", fontFamily: "'Nunito', sans-serif" }}>
-                    Passionné de vin depuis plus de 10 ans, j'ai parcouru les plus grands vignobles français et européens pour partager des conseils accessibles et authentiques. Mon approche : démystifier le vin pour que chacun puisse l'apprécier pleinement, sans jargon inutile.
+                    J'aime le vin, mais surtout les moments qu'il crée. Les verres qu'on partage, les rires qui vont avec, et les petites histoires qu'on se raconte autour d'une bonne bouteille. Avec Le Petit Vigneron, j'ai juste envie de t'ouvrir la porte de mon univers : te faire découvrir de belles pépites, simplement, sans chichi… comme si on était à la maison.
                   </p>
                   <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" as const }}>
-                    {["10+ ans de passion", "15 régions visitées", "120+ articles publiés"].map((label) => (
+                    {["5 ans de passion", "30+ articles publiés"].map((label) => (
                       <div key={label} style={{ fontSize: "11px", fontWeight: 700, color: "#731702", background: "#fdf8f2", padding: "5px 10px", borderRadius: "20px", border: "1px solid #f0d4b8", fontFamily: "'Nunito', sans-serif" }}>
                         {label}
                       </div>
@@ -243,12 +241,9 @@ export default async function Article({
       <Footer />
 
       <style>{`
-        .article-layout {
-          grid-template-columns: 1fr 280px;
-        }
+        .article-layout { grid-template-columns: 1fr 280px; }
         .sommaire-mobile { display: none; }
         .sommaire-desktop { display: block; }
-
         @media (max-width: 1024px) {
           .article-layout { grid-template-columns: 1fr !important; }
           .sommaire-mobile { display: block !important; }

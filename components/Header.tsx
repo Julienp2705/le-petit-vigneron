@@ -120,7 +120,6 @@ export default function Header() {
               {/* DROPDOWN */}
               {activeMenu === item.slug && (
                 <>
-                  {/* Overlay pour fermer en cliquant dehors */}
                   <div
                     style={{ position: "fixed" as const, inset: 0, zIndex: 150 }}
                     onClick={() => setActiveMenu(null)}
@@ -137,7 +136,6 @@ export default function Header() {
                     padding: "6px",
                     minWidth: "210px",
                   }}>
-                    {/* Voir tout */}
                     <a
                       href={`/${item.slug}`}
                       onClick={() => setActiveMenu(null)}
@@ -162,14 +160,12 @@ export default function Header() {
                       <ChevronRight />
                     </a>
 
-                    {/* Séparateur */}
                     <div style={{ height: "1px", background: "#f0d4b8", margin: "4px 6px 8px" }}></div>
 
-                    {/* Sous-catégories */}
                     {item.subcategories.map((sub) => (
                       <a
                         key={sub.slug}
-                        href={`/${item.slug}?sous=${sub.slug}`}
+                        href={`/${item.slug}/${sub.slug}`}
                         onClick={() => setActiveMenu(null)}
                         style={{
                           display: "flex",
@@ -264,7 +260,7 @@ export default function Header() {
                     {item.subcategories.map((sub) => (
                       <a
                         key={sub.slug}
-                        href={`/${item.slug}?sous=${sub.slug}`}
+                        href={`/${item.slug}/${sub.slug}`}
                         style={{
                           display: "flex",
                           alignItems: "center",
