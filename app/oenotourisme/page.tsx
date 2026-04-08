@@ -1,6 +1,16 @@
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
-
+export const metadata = {
+  title: "Oenotourisme en France : le guide ultime pour découvrir les vignobles",
+  description: "12 millions de visiteurs par an, 10 000 caves ouvertes, 17 régions viticoles. Tout ce qu'il faut savoir pour vivre une expérience oenotouristique inoubliable en France.",
+  alternates: { canonical: "https://le-petit-vigneron.fr/oenotourisme" },
+  openGraph: {
+    title: "Oenotourisme en France : le guide ultime pour découvrir les vignobles",
+    description: "12 millions de visiteurs par an, 10 000 caves ouvertes, 17 régions viticoles. Tout ce qu'il faut savoir pour vivre une expérience oenotouristique inoubliable en France.",
+    url: "https://le-petit-vigneron.fr/oenotourisme",
+    type: "website",
+  },
+}
 export default function Oenotourisme() {
 
   const regions = [

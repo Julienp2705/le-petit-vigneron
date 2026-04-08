@@ -1,6 +1,16 @@
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
-
+export const metadata = {
+  title: "Oenotourisme en Bourgogne : routes des vins, UNESCO et dégustations uniques",
+  description: "Vignobles classés UNESCO, Route des Grands Crus, Pinot Noir d'exception… Le guide complet pour vivre une expérience oenotouristique inoubliable en Bourgogne.",
+  alternates: { canonical: "https://le-petit-vigneron.fr/oenotourisme/bourgogne" },
+  openGraph: {
+    title: "Oenotourisme en Bourgogne : routes des vins, UNESCO et dégustations uniques",
+    description: "Vignobles classés UNESCO, Route des Grands Crus, Pinot Noir d'exception… Le guide complet pour une expérience oenotouristique en Bourgogne.",
+    url: "https://le-petit-vigneron.fr/oenotourisme/bourgogne",
+    type: "website",
+  },
+}
 export default function OenotourismeBourgogne() {
 
   const stats = [

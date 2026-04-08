@@ -1,6 +1,16 @@
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
-
+export const metadata = {
+  title: "Oenotourisme à Bordeaux : vignobles, châteaux et expériences coup de cœur",
+  description: "6 000 châteaux, 65 appellations, 2,5 millions de visiteurs par an. Découvrez les meilleures expériences oenotouristiques à Bordeaux — de Saint-Émilion au Médoc.",
+  alternates: { canonical: "https://le-petit-vigneron.fr/oenotourisme/bordeaux" },
+  openGraph: {
+    title: "Oenotourisme à Bordeaux : vignobles, châteaux et expériences coup de cœur",
+    description: "6 000 châteaux, 65 appellations, 2,5 millions de visiteurs par an. Découvrez les meilleures expériences oenotouristiques à Bordeaux.",
+    url: "https://le-petit-vigneron.fr/oenotourisme/bordeaux",
+    type: "website",
+  },
+}
 export default function OenotourismeBordeaux() {
 
   const stats = [

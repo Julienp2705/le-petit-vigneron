@@ -1,6 +1,16 @@
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
-
+export const metadata = {
+  title: "Oenotourisme en Champagne : crayères, grandes Maisons et villages vignerons",
+  description: "Crayères classées UNESCO, Avenue de Champagne, vignerons indépendants… Tout ce qu'il faut savoir pour vivre les bulles de l'intérieur lors d'un séjour en Champagne.",
+  alternates: { canonical: "https://le-petit-vigneron.fr/oenotourisme/champagne" },
+  openGraph: {
+    title: "Oenotourisme en Champagne : crayères, grandes Maisons et villages vignerons",
+    description: "Crayères classées UNESCO, Avenue de Champagne, vignerons indépendants… Tout ce qu'il faut savoir pour vivre les bulles de l'intérieur.",
+    url: "https://le-petit-vigneron.fr/oenotourisme/champagne",
+    type: "website",
+  },
+}
 export default function OenotourismeChampagne() {
 
   const stats = [
