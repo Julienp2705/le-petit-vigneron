@@ -20,6 +20,91 @@ function extractHeadings(contenu: string) {
     })
 }
 
+// Parse les shortcodes Winalist ::winalist ... ::
+function parseWinalistBlocks(contenu: string): string {
+  return contenu.replace(/::winalist\n([\s\S]*?)::/g, (match, inner) => {
+    const lines = inner.trim().split("\n")
+    const props: Record<string, string> = {}
+    lines.forEach((line: string) => {
+      const idx = line.indexOf("=")
+      if (idx !== -1) {
+        const key = line.slice(0, idx).trim()
+        const value = line.slice(idx + 1).trim()
+        props[key] = value
+      }
+    })
+    // On encode les props en JSON dans un élément HTML custom
+    const encoded = encodeURIComponent(JSON.stringify(props))
+    return `<winalist data="${encoded}"></winalist>`
+  })
+}
+
+function WinalistCard({ lien, image, titre }: { lien: string, image?: string, titre: string }) {
+  return (
+    <div style={{
+      background: "white",
+      borderRadius: "16px",
+      border: "1px solid #f0d4b8",
+      overflow: "hidden",
+      margin: "32px 0",
+      boxShadow: "0 4px 20px rgba(115,23,2,0.08)",
+    }}>
+      {image && (
+        <div style={{ height: "220px", overflow: "hidden", position: "relative" as const }}>
+          <img
+            src={image}
+            alt={titre}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+          <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to top, rgba(60,5,0,0.5) 0%, transparent 60%)" }} />
+          <span style={{
+            position: "absolute" as const, top: "14px", left: "14px",
+            background: "#f28322", color: "white", fontSize: "10px", fontWeight: 800,
+            padding: "4px 12px", borderRadius: "20px", textTransform: "uppercase" as const,
+            letterSpacing: "1px", fontFamily: "'Nunito', sans-serif",
+          }}>
+            Expérience Winalist
+          </span>
+        </div>
+      )}
+      <div style={{ padding: "20px 24px" }}>
+        <h3 style={{
+          fontFamily: "'Rammetto One', cursive",
+          fontSize: "18px",
+          color: "#731702",
+          marginBottom: "16px",
+          lineHeight: 1.3,
+        }}>
+          {titre}
+        </h3>
+        <a
+          href={lien}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            background: "#bf3e0f",
+            color: "#ffffff",
+            fontFamily: "'Nunito', sans-serif",
+            fontSize: "14px",
+            fontWeight: 800,
+            padding: "12px 22px",
+            borderRadius: "8px",
+            textDecoration: "none",
+          }}
+        >
+          Réserver cette expérience
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7H12M8 3L12 7L8 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  )
+}
+
 const md: any = {
   h2: ({ children }: any) => {
     const text = String(children)
@@ -39,6 +124,16 @@ const md: any = {
   hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
   a: ({ href, children }: any) => <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}>{children}</a>,
   code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
+  // Intercepte les balises winalist custom
+  winalist: ({ node }: any) => {
+    try {
+      const encoded = node?.properties?.data || ""
+      const props = JSON.parse(decodeURIComponent(encoded))
+      return <WinalistCard lien={props.lien || "#"} image={props.image} titre={props.titre || "Expérience Winalist"} />
+    } catch {
+      return null
+    }
+  },
 }
 
 const sousCategorieLabels: Record<string, string> = {
@@ -62,35 +157,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { categorie, slug } = await params
   const article = await getArticle(slug)
-
-  if (!article) {
-    return { title: "Article introuvable" }
-  }
-
+  if (!article) return { title: "Article introuvable" }
   const titre = article.meta_titre || article.titre
   const description = article.meta_description || article.extrait
   const image = article.image_couverture || "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp"
   const url = `https://le-petit-vigneron.fr/${categorie}/${slug}`
-
   return {
     title: titre,
     description: description,
     alternates: { canonical: url },
     openGraph: {
-      title: titre,
-      description: description,
-      url: url,
-      type: "article",
-      publishedTime: article.date,
-      authors: [article.auteur || "Julien"],
+      title: titre, description: description, url: url, type: "article",
+      publishedTime: article.date, authors: [article.auteur || "Julien"],
       images: [{ url: image, width: 1200, height: 630, alt: article.titre }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: titre,
-      description: description,
-      images: [image],
-    },
+    twitter: { card: "summary_large_image", title: titre, description: description, images: [image] },
   }
 }
 
@@ -113,6 +194,7 @@ export default async function Article({
     )
   }
 
+  const contenuParse = parseWinalistBlocks(article.contenu || "")
   const headings = extractHeadings(article.contenu || "")
   const categorieLabel = categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
   const sousCategorieLabel = article.sous_categorie ? (sousCategorieLabels[article.sous_categorie] || article.sous_categorie.replace(/-/g, " ")) : null
@@ -121,7 +203,6 @@ export default async function Article({
     <main style={{ background: "#fdf8f2", minHeight: "100vh" }}>
       <Header />
 
-      {/* HERO */}
       <section style={{ background: "#731702", position: "relative", overflow: "hidden" }}>
         {article.image_couverture && (
           <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
@@ -130,7 +211,6 @@ export default async function Article({
         )}
         <div style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: "48px clamp(20px, 4vw, 48px) 56px" }}>
 
-          {/* FIL D'ARIANE */}
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
@@ -163,7 +243,6 @@ export default async function Article({
             <span style={{ color: "rgba(255,255,255,0.45)" }}>{article.titre}</span>
           </div>
 
-          {/* BADGE */}
           <div style={{ marginBottom: "20px" }}>
             <span style={{ display: "inline-block", background: "#f28322", color: "#ffffff", fontSize: "11px", fontWeight: 800, padding: "5px 14px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "1px", fontFamily: "'Nunito', sans-serif" }}>
               {sousCategorieLabel || categorieLabel}
@@ -188,7 +267,6 @@ export default async function Article({
         </div>
       </section>
 
-      {/* CORPS */}
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px, 4vw, 48px)" }}>
         <div style={{ display: "grid", gap: "56px", alignItems: "start" }} className="article-layout">
           <div>
@@ -199,9 +277,7 @@ export default async function Article({
             )}
 
             <div style={{ background: "#ffe7ca", borderLeft: "4px solid #bf3e0f", borderRadius: "0 12px 12px 0", padding: "16px 20px", margin: "40px 0" }}>
-              <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>
-                {article.extrait}
-              </p>
+              <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>{article.extrait}</p>
             </div>
 
             {headings.length > 0 && (
@@ -220,9 +296,14 @@ export default async function Article({
               </div>
             )}
 
-            <ReactMarkdown components={md}>{article.contenu}</ReactMarkdown>
+            <ReactMarkdown
+              components={md}
+              allowedElements={["h2","h3","h4","p","strong","em","ul","ol","li","blockquote","img","hr","a","code","winalist"]}
+              unwrapDisallowed={false}
+            >
+              {contenuParse}
+            </ReactMarkdown>
 
-            {/* BLOC AUTEUR EEAT */}
             <div style={{ margin: "56px 0 0", background: "white", border: "1px solid #f0d4b8", borderRadius: "20px", overflow: "hidden" }}>
               <div style={{ background: "#731702", padding: "14px 24px" }}>
                 <span style={{ fontSize: "11px", fontWeight: 800, color: "#ffffff", textTransform: "uppercase" as const, letterSpacing: "2px", fontFamily: "'Nunito', sans-serif" }}>À propos de l'auteur</span>
@@ -250,7 +331,6 @@ export default async function Article({
               </div>
             </div>
 
-            {/* RETOUR */}
             <div style={{ margin: "32px 0 56px", display: "flex", gap: "12px", flexWrap: "wrap" as const }}>
               {article.sous_categorie && categorie !== "oenotourisme" && (
                 <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 700, color: "#bf3e0f", textDecoration: "none", padding: "12px 20px", border: "1.5px solid #f0d4b8", borderRadius: "8px", background: "white", fontFamily: "'Nunito', sans-serif" }}>
