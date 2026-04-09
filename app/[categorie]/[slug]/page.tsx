@@ -20,7 +20,6 @@ function extractHeadings(contenu: string) {
     })
 }
 
-// Parse les shortcodes Winalist ::winalist ... ::
 function parseWinalistBlocks(contenu: string): string {
   return contenu.replace(/::winalist\n([\s\S]*?)::/g, (match, inner) => {
     const lines = inner.trim().split("\n")
@@ -28,12 +27,9 @@ function parseWinalistBlocks(contenu: string): string {
     lines.forEach((line: string) => {
       const idx = line.indexOf("=")
       if (idx !== -1) {
-        const key = line.slice(0, idx).trim()
-        const value = line.slice(idx + 1).trim()
-        props[key] = value
+        props[line.slice(0, idx).trim()] = line.slice(idx + 1).trim()
       }
     })
-    // On encode les props en JSON dans un élément HTML custom
     const encoded = encodeURIComponent(JSON.stringify(props))
     return `<winalist data="${encoded}"></winalist>`
   })
@@ -41,63 +37,68 @@ function parseWinalistBlocks(contenu: string): string {
 
 function WinalistCard({ lien, image, titre }: { lien: string, image?: string, titre: string }) {
   return (
-    <div style={{
-      background: "white",
-      borderRadius: "16px",
-      border: "1px solid #f0d4b8",
-      overflow: "hidden",
-      margin: "32px 0",
-      boxShadow: "0 4px 20px rgba(115,23,2,0.08)",
-    }}>
+    <div style={{ background: "white", borderRadius: "16px", border: "1px solid #f0d4b8", overflow: "hidden", margin: "32px 0", boxShadow: "0 4px 20px rgba(115,23,2,0.08)" }}>
       {image && (
         <div style={{ height: "220px", overflow: "hidden", position: "relative" as const }}>
-          <img
-            src={image}
-            alt={titre}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
+          <img src={image} alt={titre} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to top, rgba(60,5,0,0.5) 0%, transparent 60%)" }} />
-          <span style={{
-            position: "absolute" as const, top: "14px", left: "14px",
-            background: "#f28322", color: "white", fontSize: "10px", fontWeight: 800,
-            padding: "4px 12px", borderRadius: "20px", textTransform: "uppercase" as const,
-            letterSpacing: "1px", fontFamily: "'Nunito', sans-serif",
-          }}>
+          <span style={{ position: "absolute" as const, top: "14px", left: "14px", background: "#f28322", color: "white", fontSize: "10px", fontWeight: 800, padding: "4px 12px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "1px", fontFamily: "'Nunito', sans-serif" }}>
             Expérience Winalist
           </span>
         </div>
       )}
       <div style={{ padding: "20px 24px" }}>
-        <h3 style={{
-          fontFamily: "'Rammetto One', cursive",
-          fontSize: "18px",
-          color: "#731702",
-          marginBottom: "16px",
-          lineHeight: 1.3,
-        }}>
-          {titre}
-        </h3>
-        <a
-          href={lien}
-          target="_blank"
-          rel="noopener noreferrer nofollow"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            background: "#bf3e0f",
-            color: "#ffffff",
-            fontFamily: "'Nunito', sans-serif",
-            fontSize: "14px",
-            fontWeight: 800,
-            padding: "12px 22px",
-            borderRadius: "8px",
-            textDecoration: "none",
-          }}
-        >
+        <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "18px", color: "#731702", marginBottom: "16px", lineHeight: 1.3 }}>{titre}</h3>
+        <a href={lien} target="_blank" rel="noopener noreferrer nofollow" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "12px 22px", borderRadius: "8px", textDecoration: "none" }}>
           Réserver cette expérience
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 7H12M8 3L12 7L8 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function WinalistBanner() {
+  return (
+    <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid #f0d4b8", margin: "40px 0", position: "relative" as const }}>
+      <div style={{ position: "absolute" as const, inset: 0 }}>
+        <img
+          src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Oenotourisme%20Winalist.webp"
+          alt="Expériences oenotouristiques"
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        />
+        <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to right, rgba(60,5,0,0.88) 0%, rgba(60,5,0,0.6) 60%, rgba(60,5,0,0.3) 100%)" }} />
+      </div>
+      <div style={{ position: "relative" as const, zIndex: 1, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" as const }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" as const }}>
+          <div style={{ background: "white", padding: "6px 10px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <img
+              src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/logo%20winalist.webp"
+              alt="Winalist"
+              style={{ height: "24px", width: "auto", objectFit: "contain" }}
+            />
+          </div>
+          <div>
+            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>
+              Ne lisez plus le vin, allez le vivre.
+              Rendez-vous sur Winalist
+            </p>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>
+              Des centaines d'expériences oenotouristiques à réserver en quelques clics.
+            </p>
+          </div>
+        </div>
+        <a
+          href="https://c3po.link/QhrVdvkpvY"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}
+        >
+          Explorer les expériences
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 6H10M7 3L10 6L7 9" stroke="#731702" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </a>
       </div>
@@ -124,15 +125,11 @@ const md: any = {
   hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
   a: ({ href, children }: any) => <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}>{children}</a>,
   code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
-  // Intercepte les balises winalist custom
   winalist: ({ node }: any) => {
     try {
-      const encoded = node?.properties?.data || ""
-      const props = JSON.parse(decodeURIComponent(encoded))
+      const props = JSON.parse(decodeURIComponent(node?.properties?.data || ""))
       return <WinalistCard lien={props.lien || "#"} image={props.image} titre={props.titre || "Expérience Winalist"} />
-    } catch {
-      return null
-    }
+    } catch { return null }
   },
 }
 
@@ -150,11 +147,7 @@ const sousCategorieLabels: Record<string, string> = {
   "sancerre": "Sancerre",
 }
 
-export async function generateMetadata({
-  params
-}: {
-  params: Promise<{ categorie: string, slug: string }>
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ categorie: string, slug: string }> }): Promise<Metadata> {
   const { categorie, slug } = await params
   const article = await getArticle(slug)
   if (!article) return { title: "Article introuvable" }
@@ -163,23 +156,14 @@ export async function generateMetadata({
   const image = article.image_couverture || "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp"
   const url = `https://le-petit-vigneron.fr/${categorie}/${slug}`
   return {
-    title: titre,
-    description: description,
+    title: titre, description,
     alternates: { canonical: url },
-    openGraph: {
-      title: titre, description: description, url: url, type: "article",
-      publishedTime: article.date, authors: [article.auteur || "Julien"],
-      images: [{ url: image, width: 1200, height: 630, alt: article.titre }],
-    },
-    twitter: { card: "summary_large_image", title: titre, description: description, images: [image] },
+    openGraph: { title: titre, description, url, type: "article", publishedTime: article.date, authors: [article.auteur || "Julien"], images: [{ url: image, width: 1200, height: 630, alt: article.titre }] },
+    twitter: { card: "summary_large_image", title: titre, description, images: [image] },
   }
 }
 
-export default async function Article({
-  params
-}: {
-  params: Promise<{ categorie: string, slug: string }>
-}) {
+export default async function Article({ params }: { params: Promise<{ categorie: string, slug: string }> }) {
   const { categorie, slug } = await params
   const article = await getArticle(slug)
 
@@ -210,7 +194,6 @@ export default async function Article({
           </div>
         )}
         <div style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: "48px clamp(20px, 4vw, 48px) 56px" }}>
-
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
@@ -220,9 +203,7 @@ export default async function Article({
                 {article.region && (
                   <>
                     <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
-                    <a href={`/oenotourisme/${article.region}`} style={{ color: "#f5c9a8", textDecoration: "none", textTransform: "capitalize" as const }}>
-                      {article.region.replace(/-/g, " ")}
-                    </a>
+                    <a href={`/oenotourisme/${article.region}`} style={{ color: "#f5c9a8", textDecoration: "none", textTransform: "capitalize" as const }}>{article.region.replace(/-/g, " ")}</a>
                   </>
                 )}
               </>
@@ -232,9 +213,7 @@ export default async function Article({
                 {article.sous_categorie && sousCategorieLabel && (
                   <>
                     <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
-                    <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>
-                      {sousCategorieLabel}
-                    </a>
+                    <a href={`/${categorie}/categorie/${article.sous_categorie}`} style={{ color: "#f5c9a8", textDecoration: "none" }}>{sousCategorieLabel}</a>
                   </>
                 )}
               </>
@@ -280,6 +259,10 @@ export default async function Article({
               <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>{article.extrait}</p>
             </div>
 
+            {/* BANNIÈRE WINALIST */}
+            <WinalistBanner />
+
+            {/* SOMMAIRE MOBILE */}
             {headings.length > 0 && (
               <div className="sommaire-mobile" style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden", marginBottom: "32px" }}>
                 <div style={{ background: "#731702", padding: "12px 20px" }}>
@@ -322,9 +305,7 @@ export default async function Article({
                   </p>
                   <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" as const }}>
                     {["5 ans de passion", "30+ articles publiés"].map((label) => (
-                      <div key={label} style={{ fontSize: "11px", fontWeight: 700, color: "#731702", background: "#fdf8f2", padding: "5px 10px", borderRadius: "20px", border: "1px solid #f0d4b8", fontFamily: "'Nunito', sans-serif" }}>
-                        {label}
-                      </div>
+                      <div key={label} style={{ fontSize: "11px", fontWeight: 700, color: "#731702", background: "#fdf8f2", padding: "5px 10px", borderRadius: "20px", border: "1px solid #f0d4b8", fontFamily: "'Nunito', sans-serif" }}>{label}</div>
                     ))}
                   </div>
                 </div>
