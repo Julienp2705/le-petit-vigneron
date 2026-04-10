@@ -21,7 +21,7 @@ function extractHeadings(contenu: string) {
 }
 
 function parseWinalistBlocks(contenu: string): string {
-  return contenu.replace(/::winalist\n([\s\S]*?)::/g, (match, inner) => {
+  return contenu.replace(/::winaliste\n([\s\S]*?)::/g, (match, inner) => {
     const lines = inner.trim().split("\n")
     const props: Record<string, string> = {}
     lines.forEach((line: string) => {
@@ -31,7 +31,7 @@ function parseWinalistBlocks(contenu: string): string {
       }
     })
     const encoded = encodeURIComponent(JSON.stringify(props))
-    return `<winalist data="${encoded}"></winalist>`
+    return `<winalistee data="${encoded}"></winalist>`
   })
 }
 
@@ -125,7 +125,7 @@ const md: any = {
   hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
   a: ({ href, children }: any) => <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}>{children}</a>,
   code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
-  winalist: ({ node }: any) => {
+  winaliste: ({ node }: any) => {
     try {
       const props = JSON.parse(decodeURIComponent(node?.properties?.data || ""))
       return <WinalistCard lien={props.lien || "#"} image={props.image} titre={props.titre || "Expérience Winalist"} />
@@ -281,7 +281,7 @@ export default async function Article({ params }: { params: Promise<{ categorie:
 
             <ReactMarkdown
               components={md}
-              allowedElements={["h2","h3","h4","p","strong","em","ul","ol","li","blockquote","img","hr","a","code","winalist"]}
+              allowedElements={["h2","h3","h4","p","strong","em","ul","ol","li","blockquote","img","hr","a","code","winaliste"]}
               unwrapDisallowed={false}
             >
               {contenuParse}
