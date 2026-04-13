@@ -69,14 +69,14 @@ function WinalisteBanner() {
       </div>
       <div style={{ position: "relative" as const, zIndex: 1, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" as const }}>
         <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" as const }}>
-          <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20winalist.webp" alt="Winalist" style={{ height: "32px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
+          <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20ballon.webp" alt="Winalist" style={{ height: "32px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
           <div>
-            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>Envie de vivre ça de l'intérieur ?</p>
-            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>Des centaines d'expériences oenotouristiques à réserver en quelques clics.</p>
+            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>La bouteille parfaite livrée chez vous chaque mois.</p>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>Sélection par des experts, découverte garantie — dès 29€/mois.</p>
           </div>
         </div>
-        <a href="https://c3po.link/QhrVdvkpvY" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}>
-          Explorer les expériences
+        <a href="https://c3po.link/QqvpKyCnTm" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}>
+          Découvrir Le Petit Ballon
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 6H10M7 3L10 6L7 9" stroke="#731702" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
