@@ -49,7 +49,7 @@ function WinalistCard({ lien, image, titre }: { lien: string, image?: string, ti
       )}
       <div style={{ padding: "20px 24px" }}>
         <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "18px", color: "#731702", marginBottom: "16px", lineHeight: 1.3 }}>{titre}</h3>
-        <a href={lien} target="_blank" rel="noopener noreferrer nofollow" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "12px 22px", borderRadius: "8px", textDecoration: "none" }}>
+        <a href={lien} target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "12px 22px", borderRadius: "8px", textDecoration: "none" }}>
           Réserver cette expérience
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 7H12M8 3L12 7L8 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -93,7 +93,7 @@ function WinalistBanner() {
         <a
           href="https://c3po.link/QhrVdvkpvY"
           target="_blank"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer nofollow sponsored"
           style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}
         >
           Explorer les expériences

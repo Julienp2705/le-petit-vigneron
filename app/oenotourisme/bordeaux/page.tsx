@@ -374,7 +374,7 @@ export default function OenotourismeBordeaux() {
                     </div>
                   </div>
                   <div style={{ padding: "0 24px 20px" }}>
-                    <a href={exp.lien} target="_blank" rel="noopener noreferrer nofollow" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "12px 22px", borderRadius: "8px", textDecoration: "none" }}>
+                    <a href={exp.lien} target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "12px 22px", borderRadius: "8px", textDecoration: "none" }}>
                       Réserver cette expérience
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                         <path d="M2 7H12M8 3L12 7L8 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -440,7 +440,7 @@ export default function OenotourismeBordeaux() {
               <p style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff", fontFamily: "'Nunito', sans-serif", marginBottom: "12px" }}>
                 Toutes nos expériences Bordeaux sur Winalist
               </p>
-              <a href="https://www.winalist.fr/france/bordeaux?utm_medium=affiliate-ae&utm_campaign=le-petit-vigneron&utm_source=affiliate-ae&ae=158" target="_blank" rel="noopener noreferrer nofollow" style={{ display: "block", background: "#f28322", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "10px 16px", borderRadius: "8px", textDecoration: "none" }}>
+              <a href="https://www.winalist.fr/france/bordeaux?utm_medium=affiliate-ae&utm_campaign=le-petit-vigneron&utm_source=affiliate-ae&ae=158" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "block", background: "#f28322", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "10px 16px", borderRadius: "8px", textDecoration: "none" }}>
                 Voir toutes les expériences
               </a>
             </div>

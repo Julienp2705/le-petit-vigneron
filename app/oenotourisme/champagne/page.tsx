@@ -300,7 +300,7 @@ export default function OenotourismeChampagne() {
                       <div style={{ fontSize: "12px", color: "#9a6040", fontFamily: "'Nunito', sans-serif", marginBottom: "6px" }}>{exp.chateau}</div>
                       <h3 style={{ fontFamily: "'Rammetto One', cursive", fontSize: "18px", color: "#731702", marginBottom: "10px", lineHeight: 1.3 }}>{exp.titre}</h3>
                       <p style={{ fontSize: "15px", color: "#4a2010", lineHeight: 1.8, marginBottom: "16px", fontFamily: "'Nunito', sans-serif" }}>{exp.desc}</p>
-                      <a href={exp.lien} target="_blank" rel="noopener noreferrer nofollow" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none" }}>
+                      <a href={exp.lien} target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#bf3e0f", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "14px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none" }}>
                         Réserver cette expérience
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                           <path d="M2 7H12M8 3L12 7L8 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -440,7 +440,7 @@ export default function OenotourismeChampagne() {
               <p style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff", fontFamily: "'Nunito', sans-serif", marginBottom: "12px" }}>
                 Toutes nos expériences Champagne sur Winalist
               </p>
-              <a href="https://www.winalist.fr/france/champagne?utm_medium=affiliate-ae&utm_campaign=le-petit-vigneron&utm_source=affiliate-ae&ae=158" target="_blank" rel="noopener noreferrer nofollow" style={{ display: "block", background: "#f28322", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "10px 16px", borderRadius: "8px", textDecoration: "none" }}>
+              <a href="https://www.winalist.fr/france/champagne?utm_medium=affiliate-ae&utm_campaign=le-petit-vigneron&utm_source=affiliate-ae&ae=158" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "block", background: "#f28322", color: "#ffffff", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "10px 16px", borderRadius: "8px", textDecoration: "none" }}>
                 Voir toutes les expériences
               </a>
             </div>
