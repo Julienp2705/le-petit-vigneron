@@ -20,7 +20,7 @@ function extractHeadings(contenu: string) {
     })
 }
 
-function parseWinalistBlocks(contenu: string): string {
+function parseWinalisteBlocks(contenu: string): string {
   return contenu.replace(/::winaliste\n([\s\S]*?)::/g, (match, inner) => {
     const lines = inner.trim().split("\n")
     const props: Record<string, string> = {}
@@ -31,11 +31,11 @@ function parseWinalistBlocks(contenu: string): string {
       }
     })
     const encoded = encodeURIComponent(JSON.stringify(props))
-    return `<winalistee data="${encoded}"></winalist>`
+    return `<winaliste data="${encoded}"></winaliste>`
   })
 }
 
-function WinalistCard({ lien, image, titre }: { lien: string, image?: string, titre: string }) {
+function WinalisteCard({ lien, image, titre }: { lien: string, image?: string, titre: string }) {
   return (
     <div style={{ background: "white", borderRadius: "16px", border: "1px solid #f0d4b8", overflow: "hidden", margin: "32px 0", boxShadow: "0 4px 20px rgba(115,23,2,0.08)" }}>
       {image && (
@@ -43,7 +43,7 @@ function WinalistCard({ lien, image, titre }: { lien: string, image?: string, ti
           <img src={image} alt={titre} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to top, rgba(60,5,0,0.5) 0%, transparent 60%)" }} />
           <span style={{ position: "absolute" as const, top: "14px", left: "14px", background: "#f28322", color: "white", fontSize: "10px", fontWeight: 800, padding: "4px 12px", borderRadius: "20px", textTransform: "uppercase" as const, letterSpacing: "1px", fontFamily: "'Nunito', sans-serif" }}>
-            Expérience Winalist
+            Expérience Winaliste
           </span>
         </div>
       )}
@@ -60,42 +60,22 @@ function WinalistCard({ lien, image, titre }: { lien: string, image?: string, ti
   )
 }
 
-function WinalistBanner() {
+function WinalisteBanner() {
   return (
     <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid #f0d4b8", margin: "40px 0", position: "relative" as const }}>
       <div style={{ position: "absolute" as const, inset: 0 }}>
-        <img
-          src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Oenotourisme%20Winalist.webp"
-          alt="Expériences oenotouristiques"
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-        />
+        <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Oenotourisme%20Winalist.webp" alt="Expériences oenotouristiques" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to right, rgba(60,5,0,0.88) 0%, rgba(60,5,0,0.6) 60%, rgba(60,5,0,0.3) 100%)" }} />
       </div>
       <div style={{ position: "relative" as const, zIndex: 1, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" as const }}>
         <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" as const }}>
-          <div style={{ background: "white", padding: "6px 10px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <img
-              src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/logo%20winalist.webp"
-              alt="Winalist"
-              style={{ height: "24px", width: "auto", objectFit: "contain" }}
-            />
-          </div>
+          <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20winalist.webp" alt="Winalist" style={{ height: "32px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
           <div>
-            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>
-              Ne lisez plus le vin, allez le vivre.
-              Rendez-vous sur Winalist
-            </p>
-            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>
-              Des centaines d'expériences oenotouristiques à réserver en quelques clics.
-            </p>
+            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>Envie de vivre ça de l'intérieur ?</p>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>Des centaines d'expériences oenotouristiques à réserver en quelques clics.</p>
           </div>
         </div>
-        <a
-          href="https://c3po.link/QhrVdvkpvY"
-          target="_blank"
-          rel="noopener noreferrer nofollow sponsored"
-          style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}
-        >
+        <a href="https://c3po.link/QhrVdvkpvY" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}>
           Explorer les expériences
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 6H10M7 3L10 6L7 9" stroke="#731702" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -123,12 +103,23 @@ const md: any = {
   blockquote: ({ children }: any) => <blockquote style={{ borderLeft: "4px solid #bf3e0f", background: "#ffe7ca", borderRadius: "0 12px 12px 0", padding: "16px 24px", margin: "32px 0", fontStyle: "italic", color: "#731702" }}>{children}</blockquote>,
   img: ({ src, alt }: any) => <img src={src} alt={alt} style={{ width: "100%", borderRadius: "12px", margin: "32px 0", display: "block" }} />,
   hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
-  a: ({ href, children }: any) => <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}>{children}</a>,
+  a: ({ href, children }: any) => {
+    const isAffiliate = href && (href.includes("c3po.link") || href.includes("winalist"))
+    return (
+      <a
+        href={href}
+        style={{ color: "#bf3e0f", fontWeight: 700 }}
+        {...(isAffiliate ? { rel: "noopener noreferrer nofollow sponsored", target: "_blank" } : {})}
+      >
+        {children}
+      </a>
+    )
+  },
   code: ({ children }: any) => <code style={{ background: "#ffe7ca", color: "#731702", padding: "2px 8px", borderRadius: "4px", fontSize: "14px" }}>{children}</code>,
   winaliste: ({ node }: any) => {
     try {
       const props = JSON.parse(decodeURIComponent(node?.properties?.data || ""))
-      return <WinalistCard lien={props.lien || "#"} image={props.image} titre={props.titre || "Expérience Winalist"} />
+      return <WinalisteCard lien={props.lien || "#"} image={props.image} titre={props.titre || "Expérience Winaliste"} />
     } catch { return null }
   },
 }
@@ -178,7 +169,7 @@ export default async function Article({ params }: { params: Promise<{ categorie:
     )
   }
 
-  const contenuParse = parseWinalistBlocks(article.contenu || "")
+  const contenuParse = parseWinalisteBlocks(article.contenu || "")
   const headings = extractHeadings(article.contenu || "")
   const categorieLabel = categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
   const sousCategorieLabel = article.sous_categorie ? (sousCategorieLabels[article.sous_categorie] || article.sous_categorie.replace(/-/g, " ")) : null
@@ -259,10 +250,8 @@ export default async function Article({ params }: { params: Promise<{ categorie:
               <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>{article.extrait}</p>
             </div>
 
-            {/* BANNIÈRE WINALIST */}
-            <WinalistBanner />
+            <WinalisteBanner />
 
-            {/* SOMMAIRE MOBILE */}
             {headings.length > 0 && (
               <div className="sommaire-mobile" style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden", marginBottom: "32px" }}>
                 <div style={{ background: "#731702", padding: "12px 20px" }}>
