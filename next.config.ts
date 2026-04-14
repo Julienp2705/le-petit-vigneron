@@ -3,19 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
-      // ── WWW → NON-WWW (301 permanent — priorité absolue, doit être en premier) ──
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "www.le-petit-vigneron.fr",
-          },
-        ],
-        destination: "https://le-petit-vigneron.fr/:path*",
-        permanent: true,
-      },
-
       // ── ACCORD METS-VINS (WordPress : /:slug/ → Next.js : /accord-mets-vins/:slug) ──
       { source: "/quel-plat-avec-un-haut-medoc", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
       { source: "/quel-plat-avec-un-haut-medoc/", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
@@ -68,7 +55,7 @@ const nextConfig: NextConfig = {
       { source: "/que-manger-avec-un-tempranillo", destination: "/accord-mets-vins/que-manger-avec-un-tempranillo", permanent: true },
       { source: "/que-manger-avec-un-tempranillo/", destination: "/accord-mets-vins/que-manger-avec-un-tempranillo", permanent: true },
 
-      // ── APPELLATIONS (WordPress : /:slug/ → Next.js : /appellations/:slug) ──
+      // ── APPELLATIONS ──
       { source: "/les-differences-entre-le-medoc-et-haut-medoc", destination: "/appellations/les-differences-entre-le-medoc-et-haut-medoc", permanent: true },
       { source: "/les-differences-entre-le-medoc-et-haut-medoc/", destination: "/appellations/les-differences-entre-le-medoc-et-haut-medoc", permanent: true },
       { source: "/classement-haut-medoc-grands-crus", destination: "/appellations/classement-haut-medoc-grands-crus", permanent: true },
@@ -78,13 +65,13 @@ const nextConfig: NextConfig = {
       { source: "/pouilly-fume-sancerre", destination: "/appellations/pouilly-fume-sancerre", permanent: true },
       { source: "/pouilly-fume-sancerre/", destination: "/appellations/pouilly-fume-sancerre", permanent: true },
 
-      // ── CÉPAGES (WordPress : /:slug/ → Next.js : /cepages/:slug) ──
+      // ── CÉPAGES ──
       { source: "/le-garnacha", destination: "/cepages/le-garnacha", permanent: true },
       { source: "/le-garnacha/", destination: "/cepages/le-garnacha", permanent: true },
       { source: "/riesling-vs-sylvaner-les-5-differences-essentielles", destination: "/cepages/riesling-vs-sylvaner-les-5-differences-essentielles", permanent: true },
       { source: "/riesling-vs-sylvaner-les-5-differences-essentielles/", destination: "/cepages/riesling-vs-sylvaner-les-5-differences-essentielles", permanent: true },
 
-      // ── OENOTOURISME (WordPress : /:slug/ → Next.js : /oenotourisme/:slug) ──
+      // ── OENOTOURISME ──
       { source: "/liste-chateau-saint-estephe", destination: "/oenotourisme/liste-chateau-saint-estephe", permanent: true },
       { source: "/liste-chateau-saint-estephe/", destination: "/oenotourisme/liste-chateau-saint-estephe", permanent: true },
       { source: "/liste-chateau-pauillac", destination: "/oenotourisme/liste-chateau-pauillac", permanent: true },
@@ -98,7 +85,7 @@ const nextConfig: NextConfig = {
       { source: "/comment-conserver-un-vin-rouge-ouvert", destination: "/oenotourisme/comment-conserver-un-vin-rouge-ouvert", permanent: true },
       { source: "/comment-conserver-un-vin-rouge-ouvert/", destination: "/oenotourisme/comment-conserver-un-vin-rouge-ouvert", permanent: true },
 
-      // ── ARTICLES WORDPRESS SANS ÉQUIVALENT NEXT.JS → accueil ──
+      // ── SANS ÉQUIVALENT → accueil / boutique ──
       { source: "/domaines-fabre-chateau-le-chene-2019-tout-savoir-sur-cette-bouteille", destination: "/boutique", permanent: true },
       { source: "/domaines-fabre-chateau-le-chene-2019-tout-savoir-sur-cette-bouteille/", destination: "/boutique", permanent: true },
       { source: "/stephane-ogier-le-temps-est-venu-2023", destination: "/boutique", permanent: true },
