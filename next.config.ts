@@ -3,6 +3,19 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // ── WWW → NON-WWW (301 permanent — priorité absolue, doit être en premier) ──
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.le-petit-vigneron.fr",
+          },
+        ],
+        destination: "https://le-petit-vigneron.fr/:path*",
+        permanent: true,
+      },
+
       // ── ACCORD METS-VINS (WordPress : /:slug/ → Next.js : /accord-mets-vins/:slug) ──
       { source: "/quel-plat-avec-un-haut-medoc", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
       { source: "/quel-plat-avec-un-haut-medoc/", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },

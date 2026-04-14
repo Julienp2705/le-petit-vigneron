@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
+    // ✅ URL absolue sans slash final — version de référence pour toutes les pages
     canonical: "https://le-petit-vigneron.fr",
   },
 }
