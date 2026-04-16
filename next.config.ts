@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // ── CORRECTIONS 404 PRIORITÉ 1 ──
-      { source: "/quel-vin-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/quel-vin-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
+      { source: "/quel-vin-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/quel-vin-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
       { source: "/quel-vin-avec-paella-mixte", destination: "/accord-mets-vins/quel-vin-avec-paella", permanent: true },
       { source: "/quel-vin-avec-paella-mixte/", destination: "/accord-mets-vins/quel-vin-avec-paella", permanent: true },
       { source: "/differences-pouilly-fume-vs-pouilly-fuisse", destination: "/appellations/pouilly-fume-sancerre", permanent: true },
@@ -46,14 +46,14 @@ const nextConfig: NextConfig = {
       { source: "/vin-blanc-avec-paella-accord/", destination: "/accord-mets-vins/quel-vin-avec-paella", permanent: true },
       { source: "/albarino-avec-paella", destination: "/accord-mets-vins/quel-vin-avec-paella", permanent: true },
       { source: "/albarino-avec-paella/", destination: "/accord-mets-vins/quel-vin-avec-paella", permanent: true },
-      { source: "/vin-rouge-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/vin-rouge-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/vin-blanc-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/vin-blanc-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/cotes-du-rhone-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/cotes-du-rhone-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/aoc-languedoc-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
-      { source: "/aoc-languedoc-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-tajine-agneau", permanent: true },
+      { source: "/vin-rouge-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/vin-rouge-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/vin-blanc-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/vin-blanc-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/cotes-du-rhone-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/cotes-du-rhone-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/aoc-languedoc-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
+      { source: "/aoc-languedoc-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
 
       // ── ACCORD METS-VINS (WordPress : /:slug/ → Next.js : /accord-mets-vins/:slug) ──
       { source: "/quel-plat-avec-un-haut-medoc", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
