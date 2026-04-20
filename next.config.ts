@@ -55,7 +55,7 @@ const nextConfig: NextConfig = {
       { source: "/aoc-languedoc-avec-couscous", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
       { source: "/aoc-languedoc-avec-couscous/", destination: "/accord-mets-vins/quel-vin-avec-couscous", permanent: true },
 
-      // ── ACCORD METS-VINS (WordPress : /:slug/ → Next.js : /accord-mets-vins/:slug) ──
+      // ── ACCORD METS-VINS ──
       { source: "/quel-plat-avec-un-haut-medoc", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
       { source: "/quel-plat-avec-un-haut-medoc/", destination: "/accord-mets-vins/quel-plat-avec-un-haut-medoc", permanent: true },
       { source: "/chablis-et-raclette", destination: "/accord-mets-vins/chablis-et-raclette", permanent: true },
@@ -106,6 +106,8 @@ const nextConfig: NextConfig = {
       { source: "/quel-vin-avec-des-tapas/", destination: "/accord-mets-vins/quel-vin-avec-des-tapas", permanent: true },
       { source: "/que-manger-avec-un-tempranillo", destination: "/accord-mets-vins/que-manger-avec-un-tempranillo", permanent: true },
       { source: "/que-manger-avec-un-tempranillo/", destination: "/accord-mets-vins/que-manger-avec-un-tempranillo", permanent: true },
+      { source: "/quel-vin-boire-ribs-porc-meilleurs-accords-mets-vins", destination: "/accord-mets-vins/quel-vin-avec-ribs-porc", permanent: true },
+      { source: "/quel-vin-boire-ribs-porc-meilleurs-accords-mets-vins/", destination: "/accord-mets-vins/quel-vin-avec-ribs-porc", permanent: true },
 
       // ── APPELLATIONS ──
       { source: "/les-differences-entre-le-medoc-et-haut-medoc", destination: "/appellations/les-differences-entre-le-medoc-et-haut-medoc", permanent: true },
