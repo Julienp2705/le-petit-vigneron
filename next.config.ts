@@ -140,6 +140,8 @@ const nextConfig: NextConfig = {
       { source: "/comment-conserver-un-vin-rouge-ouvert/", destination: "/oenotourisme/comment-conserver-un-vin-rouge-ouvert", permanent: true },
 
       // ── SANS ÉQUIVALENT → accueil / boutique ──
+      { source: "/jeux-coffret-degustation-vin-aveugle", destination: "/test/coffret-jeux-degustation-vin-aveugle", permanent: true },
+      { source: "/jeux-coffret-degustation-vin-aveugle/", destination: "/test/coffret-jeux-degustation-vin-aveugle", permanent: true },
       { source: "/domaines-fabre-chateau-le-chene-2019-tout-savoir-sur-cette-bouteille", destination: "/boutique", permanent: true },
       { source: "/domaines-fabre-chateau-le-chene-2019-tout-savoir-sur-cette-bouteille/", destination: "/boutique", permanent: true },
       { source: "/stephane-ogier-le-temps-est-venu-2023", destination: "/boutique", permanent: true },
