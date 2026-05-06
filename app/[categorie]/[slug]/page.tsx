@@ -60,19 +60,19 @@ function WinalisteCard({ lien, image, titre }: { lien: string, image?: string, t
   )
 }
 
-function WinalisteBanner() {
+function PetitBallonBanner() {
   return (
     <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid #f0d4b8", margin: "40px 0", position: "relative" as const }}>
       <div style={{ position: "absolute" as const, inset: 0 }}>
-        <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Oenotourisme%20Winalist.webp" alt="Expériences oenotouristiques" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Oenotourisme%20Winalist.webp" alt="Le Petit Ballon" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         <div style={{ position: "absolute" as const, inset: 0, background: "linear-gradient(to right, rgba(60,5,0,0.88) 0%, rgba(60,5,0,0.6) 60%, rgba(60,5,0,0.3) 100%)" }} />
       </div>
       <div style={{ position: "relative" as const, zIndex: 1, padding: "28px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "24px", flexWrap: "wrap" as const }}>
         <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" as const }}>
-          <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20ballon.webp" alt="Winalist" style={{ height: "32px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
+          <img src="https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20ballon.webp" alt="Le Petit Ballon" style={{ height: "32px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
           <div>
-            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>La bouteille parfaite livrée chez vous chaque mois.</p>
-            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>Sélection par des experts, découverte garantie — dès 29€/mois.</p>
+            <p style={{ fontSize: "16px", fontWeight: 800, color: "#ffffff", fontFamily: "'Rammetto One', cursive", margin: "0 0 4px", lineHeight: 1.3 }}>Le meilleur du vin directement chez vous.</p>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", fontFamily: "'Nunito', sans-serif", margin: 0, lineHeight: 1.5 }}>Boutique en ligne, box, abonnements… tout pour les amateurs de vin.</p>
           </div>
         </div>
         <a href="https://c3po.link/QqvpKyCnTm" target="_blank" rel="noopener noreferrer nofollow sponsored" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#ffffff", color: "#731702", fontFamily: "'Nunito', sans-serif", fontSize: "13px", fontWeight: 800, padding: "11px 20px", borderRadius: "8px", textDecoration: "none", whiteSpace: "nowrap" as const, flexShrink: 0 }}>
@@ -104,13 +104,10 @@ const md: any = {
   img: ({ src, alt }: any) => <img src={src} alt={alt} style={{ width: "100%", borderRadius: "12px", margin: "32px 0", display: "block" }} />,
   hr: () => <hr style={{ border: "none", borderTop: "1px solid #f0d4b8", margin: "40px 0" }} />,
   a: ({ href, children }: any) => {
-    const isAffiliate = href && (href.includes("c3po.link") || href.includes("winalist"))
+    const isAffiliate = href && (href.includes("c3po.link") || href.includes("winalist") || href.includes("petitballon"))
     return (
-      <a
-        href={href}
-        style={{ color: "#bf3e0f", fontWeight: 700 }}
-        {...(isAffiliate ? { rel: "noopener noreferrer nofollow sponsored", target: "_blank" } : {})}
-      >
+      <a href={href} style={{ color: "#bf3e0f", fontWeight: 700 }}
+        {...(isAffiliate ? { rel: "noopener noreferrer nofollow sponsored", target: "_blank" } : {})}>
         {children}
       </a>
     )
@@ -138,18 +135,109 @@ const sousCategorieLabels: Record<string, string> = {
   "sancerre": "Sancerre",
 }
 
+const categorieLabels: Record<string, string> = {
+  "accord-mets-vins": "Accords mets-vins",
+  "cepages": "Cépages",
+  "appellations": "Appellations",
+  "oenotourisme": "Oenotourisme",
+}
+
+function buildJsonLd(article: any, categorie: string, slug: string) {
+  const url = `https://le-petit-vigneron.fr/${categorie}/${slug}`
+  const image = article.image_couverture || "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp"
+  const description = article.meta_description || article.extrait || ""
+  const categorieLabel = categorieLabels[categorie] || categorie
+  const sousCategorieLabel = article.sous_categorie ? (sousCategorieLabels[article.sous_categorie] || article.sous_categorie) : null
+
+  const blogPosting: any = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": article.titre,
+    "description": description,
+    "image": {
+      "@type": "ImageObject",
+      "url": image,
+      "width": 1200,
+      "height": 630,
+    },
+    "author": {
+      "@type": "Person",
+      "name": article.auteur || "Julien",
+      "url": "https://le-petit-vigneron.fr",
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Le Petit Vigneron",
+      "url": "https://le-petit-vigneron.fr",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp",
+      },
+    },
+    "datePublished": article.date,
+    "dateModified": article.date,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    "inLanguage": "fr-FR",
+    "articleSection": categorieLabel,
+  }
+
+  if (sousCategorieLabel) blogPosting["keywords"] = sousCategorieLabel
+  if (article.temps_lecture) blogPosting["timeRequired"] = `PT${article.temps_lecture}M`
+
+  const breadcrumbItems: any[] = [
+    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://le-petit-vigneron.fr" },
+  ]
+
+  if (categorie === "oenotourisme") {
+    breadcrumbItems.push({ "@type": "ListItem", "position": 2, "name": "Oenotourisme", "item": "https://le-petit-vigneron.fr/oenotourisme" })
+    if (article.region) {
+      breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": article.region.charAt(0).toUpperCase() + article.region.slice(1), "item": `https://le-petit-vigneron.fr/oenotourisme/${article.region}` })
+      breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": article.titre, "item": url })
+    } else {
+      breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": article.titre, "item": url })
+    }
+  } else {
+    breadcrumbItems.push({ "@type": "ListItem", "position": 2, "name": categorieLabel, "item": `https://le-petit-vigneron.fr/${categorie}` })
+    if (article.sous_categorie && sousCategorieLabel) {
+      breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": sousCategorieLabel, "item": `https://le-petit-vigneron.fr/${categorie}/categorie/${article.sous_categorie}` })
+      breadcrumbItems.push({ "@type": "ListItem", "position": 4, "name": article.titre, "item": url })
+    } else {
+      breadcrumbItems.push({ "@type": "ListItem", "position": 3, "name": article.titre, "item": url })
+    }
+  }
+
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbItems,
+  }
+
+  return [blogPosting, breadcrumb]
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ categorie: string, slug: string }> }): Promise<Metadata> {
   const { categorie, slug } = await params
   const article = await getArticle(slug)
   if (!article) return { title: "Article introuvable" }
+
   const titre = article.meta_titre || article.titre
   const description = article.meta_description || article.extrait
   const image = article.image_couverture || "https://ciwihnnhdiwfqtywviko.supabase.co/storage/v1/object/public/image/Logo%20le%20petit%20vigneron.webp"
   const url = `https://le-petit-vigneron.fr/${categorie}/${slug}`
+
   return {
-    title: titre, description,
+    title: titre,
+    description,
     alternates: { canonical: url },
-    openGraph: { title: titre, description, url, type: "article", publishedTime: article.date, authors: [article.auteur || "Julien"], images: [{ url: image, width: 1200, height: 630, alt: article.titre }] },
+    openGraph: {
+      title: titre, description, url, type: "article",
+      publishedTime: article.date,
+      authors: [article.auteur || "Julien"],
+      images: [{ url: image, width: 1200, height: 630, alt: article.titre }],
+    },
     twitter: { card: "summary_large_image", title: titre, description, images: [image] },
   }
 }
@@ -171,11 +259,16 @@ export default async function Article({ params }: { params: Promise<{ categorie:
 
   const contenuParse = parseWinalisteBlocks(article.contenu || "")
   const headings = extractHeadings(article.contenu || "")
-  const categorieLabel = categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
+  const categorieLabel = categorieLabels[categorie] || categorie.replace(/-/g, " ").replace(/\b\w/g, (l: string) => l.toUpperCase())
   const sousCategorieLabel = article.sous_categorie ? (sousCategorieLabels[article.sous_categorie] || article.sous_categorie.replace(/-/g, " ")) : null
+  const jsonLd = buildJsonLd(article, categorie, slug)
 
   return (
     <main style={{ background: "#fdf8f2", minHeight: "100vh" }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
 
       <section style={{ background: "#731702", position: "relative", overflow: "hidden" }}>
@@ -185,6 +278,7 @@ export default async function Article({ params }: { params: Promise<{ categorie:
           </div>
         )}
         <div style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto", padding: "48px clamp(20px, 4vw, 48px) 56px" }}>
+
           <div style={{ marginBottom: "28px", fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" as const, fontFamily: "'Nunito', sans-serif" }}>
             <a href="/" style={{ color: "#f5c9a8", textDecoration: "none" }}>Accueil</a>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>›</span>
@@ -250,7 +344,7 @@ export default async function Article({ params }: { params: Promise<{ categorie:
               <p style={{ fontSize: "16px", color: "#731702", lineHeight: 1.7, fontWeight: 600, margin: 0, fontFamily: "'Nunito', sans-serif" }}>{article.extrait}</p>
             </div>
 
-            <WinalisteBanner />
+            <PetitBallonBanner />
 
             {headings.length > 0 && (
               <div className="sommaire-mobile" style={{ background: "white", border: "1px solid #f0d4b8", borderRadius: "14px", overflow: "hidden", marginBottom: "32px" }}>
