@@ -154,6 +154,12 @@ const nextConfig: NextConfig = {
       { source: "/le-petit-ballon-test-et-avis/", destination: "/", permanent: true },
       { source: "/infographie-la-consommation-de-vin-en-france-et-ses-evolutions", destination: "/", permanent: true },
       { source: "/infographie-la-consommation-de-vin-en-france-et-ses-evolutions/", destination: "/", permanent: true },
+
+      // ── DOUBLONS CONTENU (meta/title dupliqués) ──
+      { source: "/accord-mets-vins/les-differences-entre-le-medoc-et-haut-medoc", destination: "/appellations/les-differences-entre-le-medoc-et-haut-medoc", permanent: true },
+      { source: "/accord-mets-vins/les-differences-entre-le-medoc-et-haut-medoc/", destination: "/appellations/les-differences-entre-le-medoc-et-haut-medoc", permanent: true },
+      { source: "/cepages/quel-vin-avec-des-tapas", destination: "/accord-mets-vins/quel-vin-avec-des-tapas", permanent: true },
+      { source: "/cepages/quel-vin-avec-des-tapas/", destination: "/accord-mets-vins/quel-vin-avec-des-tapas", permanent: true },
     ]
   },
 
