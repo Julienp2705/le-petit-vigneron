@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown"
 import { getArticle } from "../../../lib/articles"
 import Header from "../../../components/Header"
 import Footer from "../../../components/Footer"
-
+export const revalidate = 0;
 function extractHeadings(contenu: string) {
   return contenu
     .split("\n")

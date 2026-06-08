@@ -68,7 +68,7 @@ Réponds UNIQUEMENT avec un objet JSON valide, sans balises Markdown, sans texte
   "meta_titre": "Title balise 50-60 caractères",
   "meta_description": "Meta description 140-155 caractères",
   "categorie": "accord-mets-vins | cepages | appellations | oenotourisme",
-  "sous_categorie": "slug-sous-categorie ou null",
+  "sous_categorie": "cuisine-francaise | cuisine-espagnole | cuisine-du-monde | que-manger-avec | null (si aucune ne correspond)"
   "extrait": "Résumé de 1-2 phrases pour l'aperçu article",
   "contenu": "Contenu complet en Markdown",
   "temps_lecture": 7,
