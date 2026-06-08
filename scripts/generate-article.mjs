@@ -39,13 +39,14 @@ Rédige l'article complet en Markdown en respectant ces règles :
 - Bloc "En bref" : 3-5 puces résumant la réponse (optimisé featured snippet)
 - Corps : H2 par sous-sujet + H2 par gap identifié, H3 pour les déclinaisons
 - FAQ : reprendre les PAA, réponses courtes et directes
-- Conclusion avec CTA Le Petit Ballon si pertinent
+
 
 **Ton HubSpot :**
 - Phrases courtes, une idée par phrase
 - Conversationnel, vouvoiement
 - Zéro jargon non expliqué, zéro superlatif creux
 - Sentence case dans tous les titres
+- Contenu structuré et agréable a lire avec assez de volume po
 
 **Insights uniques obligatoires :**
 Intègre dans le corps de l'article au moins 3 éléments parmi :
@@ -59,6 +60,7 @@ Intègre dans le corps de l'article au moins 3 éléments parmi :
 - Markdown pur, sans tableau
 - Longueur : 1500-2500 mots selon la concurrence SERP
 - Pas de bullet points sur plus de 5 items consécutifs
+- - Aucune balise HTML dans le contenu : pas de <cite>, <span>, <div> ou toute autre balise. Markdown pur uniquement.
 
 ## Sortie JSON attendue
 Réponds UNIQUEMENT avec un objet JSON valide, sans balises Markdown, sans texte avant ou après :
