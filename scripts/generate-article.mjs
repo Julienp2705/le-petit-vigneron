@@ -60,7 +60,7 @@ Intègre dans le corps de l'article au moins 3 éléments parmi :
 - Markdown pur, sans tableau
 - Longueur : 1500-2500 mots selon la concurrence SERP
 - Pas de bullet points sur plus de 5 items consécutifs
-- - Aucune balise HTML dans le contenu : pas de <cite>, <span>, <div> ou toute autre balise. Markdown pur uniquement.
+- TRES IMPORTANT = Aucune balise HTML dans le contenu : pas de <cite>, <span>, <div> ou toute autre balise. Markdown pur uniquement.
 
 ## Sortie JSON attendue
 Réponds UNIQUEMENT avec un objet JSON valide, sans balises Markdown, sans texte avant ou après :
