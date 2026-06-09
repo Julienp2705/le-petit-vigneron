@@ -26,7 +26,7 @@ Recherche le mot-clé cible sur Google France. Analyse le top 10 et identifie :
 Définis un axe éditorial unique que les concurrents n'ont pas. Exemples : une erreur courante expliquée, un retour d'expérience personnel, un conseil contre-intuitif, une donnée précise que personne ne donne. Cet angle doit faire que seul le-petit-vigneron.fr pouvait écrire cet article.
 
 ## Étape 3 — Maillage interne
-Consulte le-petit-vigneron.fr et trouve 3 pages existantes thématiquement proches du sujet. Tu ne peux placer qu'1 lien par page. Les URLs sont absolues, commençant par /. N'invente jamais une URL.
+Consulte le-petit-vigneron.fr et trouve 3 pages existantes thématiquement proches du sujet. Tu ne peux placer que 3 lien par page. Les URLs sont absolues, commençant par /. N'invente jamais une URL.
 
 ## Étape 4 — Rédaction
 Rédige l'article complet en Markdown en respectant ces règles :
