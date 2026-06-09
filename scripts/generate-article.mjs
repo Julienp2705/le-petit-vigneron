@@ -34,7 +34,7 @@ Rédige l'article complet en Markdown en respectant ces règles :
 **Structure :**
 - Title (balise) : mot-clé au début, 50-60 caractères, sentence case
 - Meta description : 140-155 caractères, bénéfice + incitation au clic
-- H1 : proche du title mais pas identique
+- Pas de H1 dans le contenu markdown car il est génére automatiquement par la colonne "Titre"
 - Intro : réponse immédiate à l'intention, bénéfice clair, pas de chauffe inutile
 - Bloc "En bref" : 3-5 puces résumant la réponse (optimisé featured snippet)
 - Corps : H2 par sous-sujet + H2 par gap identifié, H3 pour les déclinaisons
@@ -65,7 +65,7 @@ Intègre dans le corps de l'article au moins 3 éléments parmi :
 ## Sortie JSON attendue
 Réponds UNIQUEMENT avec un objet JSON valide, sans balises Markdown, sans texte avant ou après :
 {
-  "titre": "Titre H1 de l'article",
+  "titre": "titre de l'article optimisé CTR",
   "slug": "slug-url-de-l-article",
   "meta_titre": "Title balise 50-60 caractères",
   "meta_description": "Meta description 140-155 caractères",
