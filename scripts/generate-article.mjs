@@ -124,7 +124,7 @@ async function insertArticle(article, keywordId) {
     month: "long",
     year: "numeric",
   });
-
+article.contenu = article.contenu.replace(/<[^>]*>/g, '');
   const { data, error } = await supabase
     .from("articles")
     .insert({
