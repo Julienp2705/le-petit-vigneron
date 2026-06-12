@@ -2,7 +2,7 @@ name: Generate Article
 
 on:
   schedule:
-    - cron: '30 9 * * 1-5'  # 12h30 Paris (UTC+2)
+    - cron: '30 9 * * 1-5'  # 9h30 Paris (UTC+2)
   workflow_dispatch:        # déclenchement manuel possible
 
 jobs:
