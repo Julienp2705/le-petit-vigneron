@@ -64,144 +64,36 @@ Intègre dans le corps de l'article au moins 3 éléments parmi :
 
 ## Sortie JSON attendue
 Réponds UNIQUEMENT avec un objet JSON valide, sans balises Markdown, sans texte avant ou après :
+Aucune phrase d'introduction comme "Voici le JSON" n'est autorisée.
 {
   "titre": "Titre H1 de l'article",
   "slug": "slug-url-de-l-article",
   "meta_titre": "Title balise 50-60 caractères",
   "meta_description": "Meta description 140-155 caractères",
   "categorie": "accord-mets-vins | cepages | appellations | oenotourisme",
-  "sous_categorie": "cuisine-francaise | cuisine-espagnole | cuisine-du-monde | que-manger-avec | null (si aucune ne correspond)",
+  "sous_categorie": "cuisine-francaise | cuisine-espagnole | cuisine-du-monde | que-manger-avec | null",
   "extrait": "Résumé de 1-2 phrases pour l'aperçu article",
   "contenu": "Contenu complet en Markdown",
-  "temps_lecture": 7,6,3,4,5
+  "temps_lecture": 7,
   "auteur": "Julien"
 }`;
 
-async function getNextKeyword() {
-  const { data, error } = await supabase
-    .from("keywords")
-    .select("*")
-    .eq("statut", "pending")
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .single();
+function extractJsonObject(text) {
+  const cleaned = text.replace(/```json|```/g, "").trim();
+  const start = cleaned.indexOf("{");
 
-  if (error || !data) {
-    console.log("Aucun mot-clé en attente.");
-    process.exit(0);
+  if (start === -1) {
+    throw new Error(`Réponse Anthropic sans objet JSON : ${cleaned.slice(0, 300)}`);
   }
-  return data;
-}
 
-async function getExistingArticles() {
-  const { data } = await supabase
-    .from("articles")
-    .select("titre, slug, categorie, extrait, sous_categorie")
-    .eq("publie", true)
-    .order("created_at", { ascending: false })
-    .limit(50);
-  return data || [];
-}
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
 
-async function generateArticle(keyword) {
-  console.log(`Génération pour : ${keyword.keyword}`);
+  for (let i = start; i < cleaned.length; i += 1) {
+    const char = cleaned[i];
 
-  const articles = await getExistingArticles();
-  const articlesContext = articles
-    .map(
-      (a) =>
-        `- ${a.titre} | URL: /${a.categorie}/${a.slug} | Catégorie: ${a.categorie}${a.sous_categorie ? "/" + a.sous_categorie : ""} | Sujet: ${a.extrait?.slice(0, 120) || ""}`
-    )
-    .join("\n");
-
-  const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 8000,
-    tools: [{ type: "web_search_20250305", name: "web_search" }],
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: "user",
-        content: `Mot-clé cible : "${keyword.keyword}"
-Catégorie : ${keyword.categorie}
-
-ARTICLES EXISTANTS SUR LE SITE (pour le maillage interne — choisis 3 articles THÉMATIQUEMENT PROCHES du sujet. Place chaque lien en contexte naturel dans le corps de l'article, jamais en fin) :
-${articlesContext}
-
-Analyse la SERP, définis l'angle différenciant, choisis 3 articles pertinents dans la liste ci-dessus pour le maillage, puis rédige l'article. Retourne uniquement le JSON.`,
-      },
-    ],
-  });
-
-  const text = response.content
-    .filter((b) => b.type === "text")
-    .map((b) => b.text)
-    .join("");
-
-  const clean = text.replace(/```json|```/g, "").trim();
-  return JSON.parse(clean);
-}
-
-async function insertArticle(article, keywordId) {
-  const today = new Date().toLocaleDateString("fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
-  article.contenu = article.contenu.replace(/<[^>]*>/g, "");
-
-  const { data, error } = await supabase
-    .from("articles")
-    .insert({
-      titre: article.titre,
-      slug: article.slug,
-      categorie: article.categorie,
-      sous_categorie: article.sous_categorie || null,
-      extrait: article.extrait,
-      contenu: article.contenu,
-      meta_titre: article.meta_titre,
-      meta_description: article.meta_description,
-      temps_lecture: article.temps_lecture,
-      auteur: article.auteur,
-      date: today,
-      publie: true,
-    })
-    .select()
-    .single();
-
-  if (error) throw new Error(`Erreur insertion : ${error.message}`);
-
-  await supabase
-    .from("keywords")
-    .update({ statut: "done", article_id: data.id })
-    .eq("id", keywordId);
-
-  return data;
-}
-
-async function revalidate(categorie, slug) {
-  const res = await fetch(`${process.env.SITE_URL}/webhook/revalidate`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-revalidate-secret": process.env.REVALIDATE_SECRET,
-    },
-    body: JSON.stringify({ categorie, slug }),
-  });
-  const json = await res.json();
-  console.log("Revalidation :", json);
-}
-
-async function main() {
-  const keyword = await getNextKeyword();
-  const article = await generateArticle(keyword);
-  const inserted = await insertArticle(article, keyword.id);
-  await revalidate(inserted.categorie, inserted.slug);
-  console.log(`Article publié : /${inserted.categorie}/${inserted.slug}`);
-}
-
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
