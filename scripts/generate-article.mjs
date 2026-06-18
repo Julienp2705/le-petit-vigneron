@@ -115,7 +115,7 @@ async function generateArticle(keyword) {
     .join("\n");
 
   const response = await anthropic.messages.create({
-    model: "model: "claude-sonnet-4-6",
+    model: "claude-sonnet-4-6",
     max_tokens: 8000,
     tools: [{ type: "web_search_20250305", name: "web_search" }],
     system: SYSTEM_PROMPT,
